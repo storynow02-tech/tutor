@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
             // 0b. Handle "Debug" command (Check Cache Status)
             if (userMessage.toLowerCase() === 'debug' || userMessage.toLowerCase() === 'status') {
                 const notionData = await getCachedNotionData();
-                const fetchedTime = new Date(notionData.fetchedAt).toLocaleString();
+                const fetchedAt = notionData.fetchedAt || Date.now();
+                const fetchedTime = new Date(fetchedAt).toLocaleString();
                 const pageTitles = notionData.pages.map(p => `• ${p.title}`).join('\n');
 
                 await lineClient.replyMessage({
