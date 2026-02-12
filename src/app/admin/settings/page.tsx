@@ -69,23 +69,7 @@ export default async function SettingsPage() {
                     </CardContent>
                 </Card>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>知識庫維護</CardTitle>
-                        <CardDescription>
-                            管理 Notion 資料同步狀態
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex items-center justify-between space-x-2 border p-4 rounded-lg">
-                            <div className="space-y-0.5">
-                                <Label className="text-base">手動更新知識庫</Label>
-                                <p className="text-sm text-muted-foreground">立即清除快取，重新抓取 Notion 最新資料 (預設每 24 小時自動更新)</p>
-                            </div>
-                            <Button formAction={refreshNotionData}>立即更新</Button>
-                        </div>
-                    </CardContent>
-                </Card>
+
 
                 <Card>
                     <CardHeader>
@@ -136,6 +120,24 @@ export default async function SettingsPage() {
                     <Button type="submit" size="lg">儲存變更</Button>
                 </div>
             </form>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>知識庫維護</CardTitle>
+                    <CardDescription>
+                        管理 Notion 資料同步狀態
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between space-x-2 border p-4 rounded-lg">
+                        <div className="space-y-0.5">
+                            <Label className="text-base">手動更新知識庫</Label>
+                            <p className="text-sm text-muted-foreground">立即清除快取，重新抓取 Notion 最新資料 (預設每 24 小時自動更新)</p>
+                        </div>
+                        <RefreshButton />
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     )
 }
