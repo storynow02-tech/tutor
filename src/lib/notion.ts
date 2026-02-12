@@ -91,7 +91,7 @@ export const getCachedNotionData = unstable_cache(
 
     const combinedContext = pages
       .map((p) => `--- Page: ${p.title} ---\n${p.content}`)
-      .join('\n\n');
+      .join('\n\n') + `\n\n[System Info] Data Fetched At: ${new Date().toISOString()}`;
 
     return {
       combinedContext,

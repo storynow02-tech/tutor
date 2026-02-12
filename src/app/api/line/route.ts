@@ -36,6 +36,18 @@ export async function POST(req: NextRequest) {
             const userMessage = event.message.text;
             const replyToken = event.replyToken;
 
+            // 0. Handle "ID" command (Debug utility)
+            if (userMessage.toLowerCase() === 'id' || userMessage.toLowerCase() === 'myid') {
+                await lineClient.replyMessage({
+                    replyToken: replyToken,
+                    messages: [{
+                        type: 'text',
+                        text: `Your LINE User ID:\n${userId}`
+                    }]
+                });
+                return;
+            }
+
             // --- 0. Check System Config & Session Mode ---
             // Fetch config and session in parallel to save time
             const [systemConfig, chatSession] = await Promise.all([
