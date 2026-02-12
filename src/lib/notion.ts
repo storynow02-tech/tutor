@@ -101,7 +101,7 @@ export const getCachedNotionData = unstable_cache(
   },
   ['notion-data'],
   {
-    revalidate: 86400,
+    revalidate: 86400, // Revert to 24 hours
     tags: ['notion-data'],
   }
 );

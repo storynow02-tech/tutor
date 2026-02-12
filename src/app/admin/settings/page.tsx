@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { updateConfigAction } from "@/app/admin/actions"
+import { updateConfigAction, refreshNotionData } from "@/app/admin/actions"
 import { getSystemConfig } from "@/lib/notion"
 
 export default async function SettingsPage() {
@@ -65,6 +65,24 @@ export default async function SettingsPage() {
 - 格式：使用條列式重點，讓資訊易於閱讀。
 - 語言：繁體中文 (台灣用語)。`}
                             />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>知識庫維護</CardTitle>
+                        <CardDescription>
+                            管理 Notion 資料同步狀態
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between space-x-2 border p-4 rounded-lg">
+                            <div className="space-y-0.5">
+                                <Label className="text-base">手動更新知識庫</Label>
+                                <p className="text-sm text-muted-foreground">立即清除快取，重新抓取 Notion 最新資料 (預設每 24 小時自動更新)</p>
+                            </div>
+                            <Button formAction={refreshNotionData}>立即更新</Button>
                         </div>
                     </CardContent>
                 </Card>

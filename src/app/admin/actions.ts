@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { updateSystemConfig, updateChatSession } from '@/lib/notion';
 
 export async function updateConfigAction(formData: FormData) {
@@ -27,8 +27,14 @@ export async function updateConfigAction(formData: FormData) {
     revalidatePath('/admin/settings');
 }
 
+
 export async function toggleAiModeAction(lineUserId: string, currentMode: 'AI' | 'Human') {
     const newMode = currentMode === 'AI' ? 'Human' : 'AI';
     await updateChatSession(lineUserId, newMode);
     revalidatePath('/admin/agent');
+}
+
+export async function refreshNotionData() {
+    revalidateTag('notion-data');
+    revalidatePath('/admin/settings');
 }
