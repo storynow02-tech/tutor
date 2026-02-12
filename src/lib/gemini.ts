@@ -41,39 +41,44 @@ Instructions:
 4. Use Traditional Chinese (繁體中文) for all responses.
 `;
 
+    // Use the global MODEL_PRIMARY constant which already loads from process.env.GEMINI_MODEL_NAME
+    const primaryModelName = MODEL_PRIMARY;
+
     try {
         // Attempt 1: Primary Model
-        const modelName = process.env.GEMINI_MODEL_NAME || 'gemini-2.0-flash'; // 2.5 is not stable yet
-        console.log(`[Gemini] Attempting generation with ${modelName}...`);
+        console.log(`[Gemini] Attempting generation with ${primaryModelName}...`);
 
-        const model = genAI.getGenerativeModel({ model: modelName });
+        const model = genAI.getGenerativeModel({ model: primaryModelName });
         const result = await model.generateContent([systemPrompt, query]);
         const response = await result.response;
 
         return {
             text: response.text(),
-            modelUsed: modelName,
+            modelUsed: primaryModelName,
         };
 
-    } catch (error: any) {
-        console.warn(`[Gemini] Primary model failed: ${error.message}. Switching to fallback...`);
+    } catch (primaryError: any) {
+        console.warn(`[Gemini] Primary model (${primaryModelName}) failed: ${primaryError.message}. Switching to fallback...`);
+
+        const FALLBACK_MODEL = MODEL_FALLBACK; // Use global fallback constant
 
         try {
             // Attempt 2: Fallback Model
-            console.log(`[Gemini] Attempting generation with ${MODEL_FALLBACK}...`);
-            const fallbackModel = genAI.getGenerativeModel({ model: MODEL_FALLBACK });
+            console.log(`[Gemini] Attempting generation with ${FALLBACK_MODEL}...`);
+            const fallbackModel = genAI.getGenerativeModel({ model: FALLBACK_MODEL });
             const result = await fallbackModel.generateContent([systemPrompt, query]);
             const response = await result.response;
 
             return {
                 text: response.text(),
-                modelUsed: MODEL_FALLBACK,
+                modelUsed: FALLBACK_MODEL,
             };
         } catch (fallbackError: any) {
             console.error(`[Gemini] Fallback model also failed: ${fallbackError.message}`);
+
             // Return detailed error for debugging
             return {
-                text: `抱歉，系統目前忙碌中 (AI Service Unavailable)。\n\n錯誤代碼: ${fallbackError.message || fallbackError.toString()}`,
+                text: `抱歉，系統目前忙碌中 (AI Service Unavailable)。\n\n[Primary Error]: ${primaryError.message}\n\n[Fallback Error]: ${fallbackError.message}`,
                 modelUsed: 'none',
             };
         }
