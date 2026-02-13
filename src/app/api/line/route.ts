@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
                     replyToken: replyToken,
                     messages: [{
                         type: 'text',
-                        text: '已為您轉接專人客服，請稍候，我們將盡快回覆您。'
+                        text: '已為您轉接專人客服，請稍候，我們將盡快回覆您。\n(請耐心等候教師的回覆、謝謝！5分鐘後會轉為AI導師小助)'
                     }]
                 });
 
