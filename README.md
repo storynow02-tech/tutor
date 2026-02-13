@@ -13,6 +13,7 @@
 - **LINE Messaging API 整合**：
   - 支援 LINE 官方帳號接收訊息與自動回覆。
   - 支援 Webhook 事件處理。
+  - **自訂通知訊息**：當用戶觸發「轉真人」時，管理員會收到包含用戶暱稱與訊息內容的通知 (可於 `src/app/api/line/route.ts` 修改)。
 - **開發測試工具**：
   - 提供 `/api/test-models` 快速檢測 AI 模型連線狀態與 Notion 資料讀取狀況。
   - 提供 `/api/debug-gemini` 協助除錯 Google API Key 的權限與可用模型列表。
