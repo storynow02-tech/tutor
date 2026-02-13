@@ -112,11 +112,16 @@ export async function POST(req: NextRequest) {
 
                 // Notify Admin (Env)
                 if (ADMIN_LINE_ID) {
+                    // Fetch user profile for friendly name
+                    const profile = await lineClient.getProfile(userId).catch(() => null);
+                    const displayName = profile ? profile.displayName : '未知用戶';
+
                     await lineClient.pushMessage({
                         to: ADMIN_LINE_ID,
                         messages: [{
                             type: 'text',
-                            text: `[系統通知] 用戶觸發真人客服請求！\n\n用戶ID: ${userId}\n訊息內容: ${userMessage}`
+                            // text: `[系統通知] 用戶觸發真人客服請求！\n\n用戶ID: ${userId}\n訊息內容: ${userMessage}`
+                            text: `🔔 [導師小助] 真人客服請求\n\n姓名：${displayName}\n訊息：${userMessage}\n\n(請至 LINE 官方帳號後台回覆)`
                         }]
                     }).catch(e => console.error("Failed to notify admin", e));
                 }
