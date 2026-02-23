@@ -4,6 +4,7 @@ import { Groq } from 'groq-sdk';
 // --- Configuration ---
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 const GEMINI_MODEL_NAME = process.env.GEMINI_MODEL_NAME || 'gemini-1.5-flash';
+const SCHOOL_NAME = process.env.SCHOOL_NAME || '導師室';
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const GROQ_MODEL_NAME = process.env.GROQ_MODEL_NAME || 'gemma2-9b-it';
@@ -30,7 +31,7 @@ export interface AiResponse {
  */
 export async function generateAnswer(query: string, context: string): Promise<AiResponse> {
     const systemPrompt = `
-你是海青工商導師室的 AI 小助手，專門回答學生與家長的問題。
+你是${SCHOOL_NAME}的 AI 小助手，專門回答學生與家長的問題。
 你的知識來源是以下 Notion 頁面內容：
 
 <NotionContext>
